@@ -1,12 +1,19 @@
-<script>
-export default {
-  props: {
-    placeholder: String,
-  },
-};
+<script setup>
+const model = defineModel();
+const props = defineProps({
+  placeholder: String,
+  name: String,
+});
 </script>
+
 <template>
-  <input class="pvm-search-control-input" :placeholder="placeholder" />
+  <input
+    class="pvm-search-control-input"
+    type="text"
+    v-model="model"
+    :name="name"
+    :placeholder="placeholder"
+  />
 </template>
 <style>
 .pvm-search-control-input {

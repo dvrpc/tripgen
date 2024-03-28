@@ -1,5 +1,7 @@
-<script setup></script>
+<script setup>
+import DataInput from "../components/DataInput.vue";
+</script>
 
-<template>
-  <main></main>
-</template>
+<template><DataInput></DataInput></template>
+
+<style></style>

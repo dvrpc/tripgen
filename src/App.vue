@@ -1,29 +1,20 @@
-<script>
+<script setup>
 import Map from "./components/Map.vue";
-import "../node_modules/mapbox-gl/dist/mapbox-gl.css";
-import Sidebar from "./components/Sidebar.vue";
 
-export default {
-  components: {
-    Map,
-    Sidebar,
-  },
-
-  data: () => ({
-    location: {
-      lng: -71.224518,
-      lat: 42.213995,
-      bearing: 0,
-      pitch: 0,
-      zoom: 9,
-    },
-  }),
+const location = {
+  lng: -71.224518,
+  lat: 42.213995,
+  bearing: 0,
+  pitch: 0,
+  zoom: 9,
 };
 </script>
 
 <template>
   <div id="layout">
-    <Sidebar></Sidebar>
+    <div id="sidebar">
+      <RouterView></RouterView>
+    </div>
     <Map v-model="location"></Map>
   </div>
 </template>
@@ -32,5 +23,13 @@ export default {
 #layout {
   flex: 1;
   display: flex;
+  width: 100%;
+}
+
+#sidebar {
+  color: black;
+  background-color: white;
+  width: 25vw;
+  height: 100vh;
 }
 </style>
