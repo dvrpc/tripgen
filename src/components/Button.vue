@@ -13,6 +13,7 @@ export default {
   background: #0f4d90;
   margin-right: 1.5px;
   height: 50px;
+  cursor: pointer;
 }
 
 button {
