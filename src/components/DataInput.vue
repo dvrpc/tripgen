@@ -18,19 +18,24 @@ const formSubmit = (e) => {
   <form @submit="formSubmit">
     <label
       >Project Title
-      <TextField v-model="title" placeholder="Title" name="title"></TextField>
+      <TextField
+        v-model="title"
+        placeholder="Title"
+        name="title"
+        required
+      ></TextField>
     </label>
     <label
       >Project Address
-      <TextField placeholder="Address" name="address"></TextField>
+      <TextField placeholder="Address" name="address" required></TextField>
     </label>
     <label
       >Number of Residents
-      <TextField placeholder="Residents" name="residents"></TextField>
+      <TextField placeholder="Residents" name="residents" required></TextField>
     </label>
     <label
       >Number of Employees
-      <TextField placeholder="Employees" name="employees"></TextField>
+      <TextField placeholder="Employees" name="employees" required></TextField>
     </label>
     <Button text="Generate Report"></Button>
   </form>

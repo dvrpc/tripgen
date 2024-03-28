@@ -3,6 +3,7 @@ const model = defineModel();
 const props = defineProps({
   placeholder: String,
   name: String,
+  required: Boolean,
 });
 </script>
 
@@ -13,6 +14,7 @@ const props = defineProps({
     v-model="model"
     :name="name"
     :placeholder="placeholder"
+    required
   />
 </template>
 <style>

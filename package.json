@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@phila/vue-comps": "^3.0.12",
+    "chart.js": "^4.4.2",
     "mapbox-gl": "^3.2.0",
     "vue": "^3.4.21",
+    "vue-chartjs": "^5.3.0",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
