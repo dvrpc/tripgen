@@ -2,21 +2,19 @@
 import { ref, watch } from "vue";
 import TextField from "@/components/TextField.vue";
 import Button from "@/components/Button.vue";
-import router from "@/router";
 import debounce from "@/utilities/debounce";
 import { store } from "@/utilities/store";
+import DataViz from "@/components/DataViz.vue";
 
 const title = ref("");
 const address = ref("");
-const employees = ref("");
-const residents = ref("");
 const items = ref([]);
 const formData = ref({});
 
 const formSubmit = (e) => {
   e.preventDefault();
   var data = new FormData(e.target);
-  formData.value = data;
+  formData.value = Object.fromEntries(data);
 };
 
 watch(
@@ -80,7 +78,6 @@ const onClick = (item) => {
       <label
         >Number of Residents
         <TextField
-          v-model="residents"
           placeholder="Residents"
           name="residents"
           required
@@ -89,7 +86,6 @@ const onClick = (item) => {
       <label
         >Number of Employees
         <TextField
-          v-model="employees"
           placeholder="Employees"
           name="employees"
           required
@@ -98,6 +94,9 @@ const onClick = (item) => {
       <Button text="Generate Report"></Button>
     </template>
   </form>
+  <template v-if="!!Object.keys(formData).length">
+    <DataViz :formData="formData" />
+  </template>
 </template>
 
 <style>

@@ -1,10 +1,11 @@
-<template>
-  <div ref="mapContainer" class="map-container"></div>
-</template>
-
 <script>
+import { watch } from "vue";
 import mapboxgl from "mapbox-gl";
 import { LngLatBounds } from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { store } from "@/utilities/store";
+import { getBoundingBox } from "@/utilities";
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoibW1vbHRhIiwiYSI6ImNqZDBkMDZhYjJ6YzczNHJ4cno5eTcydnMifQ.RJNJ7s7hBfrJITOBZBdcOA";
 
@@ -30,19 +31,55 @@ export default {
     });
 
     map.on("load", () => {
-      map.addSource("parcel", {
+      map.addSource("urban-areas", {
         type: "geojson",
-        data: "https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/DOR_Parcel/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&returnEnvelope=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pgeojson&token=",
+        data: { type: "FeatureCollection", features: [] },
       });
-
       map.addLayer({
-        id: "parcel-layer",
+        id: "urban-areas-fill",
         type: "fill",
-        source: "parcel",
+        source: "urban-areas",
+        layout: {},
+        paint: {
+          "fill-color": "#f08",
+          "fill-opacity": 0.4,
+        },
       });
     });
 
+    map.on("click", "urban-areas-fill", (event) => {
+      store.selectedFeature = event.features[0];
+    });
+
     this.map = map;
+
+    watch(store, (value) => {
+      if (!!Object.keys(value.selectedFeature).length) {
+        map.getSource("urban-areas").setData(
+          `https://services.arcgis.com/fLeGjb7u4uXqeF9q/ArcGIS/rest/services/DOR_Parcel/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=${encodeURI(
+            JSON.stringify({
+              rings: [...value.selectedFeature.geometry.coordinates],
+              spatialReference: {
+                wkid: 4326,
+              },
+            })
+          )}&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelEnvelopeIntersects&resultType=none&distance=&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=true&returnCentroid=false&returnEnvelope=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pgeojson&token=`
+        );
+
+        const bbox = getBoundingBox(value.selectedFeature);
+        const { xMin, xMax, yMin, yMax } = bbox;
+        xMin &&
+          map.fitBounds(
+            [
+              [xMin, yMin],
+              [xMax, yMax],
+            ],
+            {
+              maxZoom: 17,
+            }
+          );
+      }
+    });
   },
 
   unmounted() {
@@ -51,6 +88,10 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div ref="mapContainer" class="map-container"></div>
+</template>
 
 <style>
 .map-container {

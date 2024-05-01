@@ -1,5 +1,6 @@
 <script setup>
 import Map from "./components/Map.vue";
+import SideBar from "./components/SideBar.vue";
 
 const location = {
   lng: -71.224518,
@@ -12,9 +13,7 @@ const location = {
 
 <template>
   <div id="layout">
-    <div id="sidebar">
-      <RouterView></RouterView>
-    </div>
+    <div id="sidebar"><SideBar></SideBar></div>
     <Map v-model="location"></Map>
   </div>
 </template>
@@ -31,5 +30,9 @@ const location = {
   background-color: white;
   width: 25vw;
   height: 100vh;
+}
+
+.map-container {
+  flex: 1;
 }
 </style>

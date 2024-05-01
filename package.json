@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-geocoder": "^5.0.2",
     "@phila/vue-comps": "^3.0.12",
+    "@studiometa/vue-mapbox-gl": "^2.5.0",
     "chart.js": "^4.4.2",
     "mapbox-gl": "^3.2.0",
     "vue": "^3.4.21",

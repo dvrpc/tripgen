@@ -1,4 +1,5 @@
 <script setup>
+import { defineProps, watch } from "vue";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -10,10 +11,11 @@ import {
 } from "chart.js";
 
 ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
+const props = defineProps({ formData: Object });
+const { employees, residents } = props.formData;
 
-const params = new URLSearchParams(window.location.search);
-const employees = parseInt(params.get("employees"));
-const residents = parseInt(params.get("residents"));
+watch(employees, () => console.log("hello"));
+
 const tripsAM = 4.229 + 2.072 * employees + 0.139 * residents;
 const tripsPM = -2.242 + 3.817 * employees + 0.181 * residents;
 
