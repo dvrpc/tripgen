@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, watch } from "vue";
+import { defineProps } from "vue";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -9,12 +9,10 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
+import { store } from "@/utilities/store";
 
 ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
-const props = defineProps({ formData: Object });
-const { employees, residents } = props.formData;
-
-watch(employees, () => console.log("hello"));
+const { employees, residents } = store.formData;
 
 const tripsAM = 4.229 + 2.072 * employees + 0.139 * residents;
 const tripsPM = -2.242 + 3.817 * employees + 0.181 * residents;

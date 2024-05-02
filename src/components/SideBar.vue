@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { nextTick, ref, watch } from "vue";
 import TextField from "@/components/TextField.vue";
 import Button from "@/components/Button.vue";
 import debounce from "@/utilities/debounce";
@@ -9,12 +9,13 @@ import DataViz from "@/components/DataViz.vue";
 const title = ref("");
 const address = ref("");
 const items = ref([]);
-const formData = ref({});
+const vizKey = ref(0);
 
-const formSubmit = (e) => {
+const formSubmit = async (e) => {
   e.preventDefault();
   var data = new FormData(e.target);
-  formData.value = Object.fromEntries(data);
+  store.formData = Object.fromEntries(data);
+  vizKey.value += 1;
 };
 
 watch(
@@ -94,8 +95,8 @@ const onClick = (item) => {
       <Button text="Generate Report"></Button>
     </template>
   </form>
-  <template v-if="!!Object.keys(formData).length">
-    <DataViz :formData="formData" />
+  <template v-if="!!Object.keys(store.formData).length">
+    <DataViz :key="vizKey" />
   </template>
 </template>
 
