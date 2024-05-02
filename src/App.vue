@@ -29,7 +29,12 @@ const location = {
   color: black;
   background-color: white;
   width: 25vw;
-  height: 100vh;
+  max-height: 100vh;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  overflow-y: scroll;
 }
 
 .map-container {

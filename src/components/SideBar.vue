@@ -1,7 +1,7 @@
 <script setup>
-import { nextTick, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import TextField from "@/components/TextField.vue";
-import Button from "@/components/Button.vue";
+import PhilaButton from "@/components/Button.vue";
 import debounce from "@/utilities/debounce";
 import { store } from "@/utilities/store";
 import DataViz from "@/components/DataViz.vue";
@@ -69,7 +69,7 @@ const onClick = (item) => {
     <template v-if="!Object.keys(store.selectedFeature).length">
       <div id="suggestions">
         <div v-for="item in items" :key="item.id" style="padding: 0">
-          <button type="button" @click="onClick(item)">
+          <button class="autocomp" type="button" @click="onClick(item)">
             {{ item.properties.ADDR_STD }}
           </button>
         </div>
@@ -92,7 +92,7 @@ const onClick = (item) => {
           required
         ></TextField>
       </label>
-      <Button text="Generate Report"></Button>
+      <PhilaButton text="Generate Report"></PhilaButton>
     </template>
   </form>
   <template v-if="!!Object.keys(store.formData).length">
@@ -103,9 +103,16 @@ const onClick = (item) => {
 <style>
 label {
   display: inline-block;
+  width: 100%;
 }
 
 #suggestions > div > button {
   cursor: pointer;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  outline: inherit;
 }
 </style>

@@ -49,6 +49,7 @@ export default {
 
     map.on("click", "urban-areas-fill", (event) => {
       store.selectedFeature = event.features[0];
+      store.formData = {};
     });
 
     this.map = map;

@@ -1,8 +1,8 @@
 <script setup>
-import { defineProps } from "vue";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
+  Colors,
   Title,
   Tooltip,
   BarElement,
@@ -11,7 +11,14 @@ import {
 } from "chart.js";
 import { store } from "@/utilities/store";
 
-ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
+ChartJS.register(
+  Title,
+  Tooltip,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Colors
+);
 const { employees, residents } = store.formData;
 
 const tripsAM = 4.229 + 2.072 * employees + 0.139 * residents;
@@ -51,6 +58,16 @@ const pmChartOptions = {
 </script>
 
 <template>
+  <hr style="margin-top: 1rem; margin-bottom: 1rem" />
+  <p style="text-transform: uppercase">
+    {{ store.formData.address }}
+  </p>
+  <p>
+    <span style="margin-right: 0.75rem"
+      >Employees: {{ store.formData.employees }}</span
+    >
+    <span>Residents: {{ store.formData.residents }}</span>
+  </p>
   <Bar id="chartAM" :options="amChartOptions" :data="amChartData"></Bar>
   <Bar id="chartPM" :options="pmChartOptions" :data="pmChartData"></Bar>
 </template>

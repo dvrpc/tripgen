@@ -4,28 +4,29 @@ export default {
 };
 </script>
 <template>
-  <button class="pvm-search-control-button">{{ text }}</button>
+  <button class="btn">{{ text }}</button>
 </template>
 <style>
-.pvm-search-control-button {
+.btn {
   display: inline-block;
   color: #fff;
   background: #0f4d90;
   margin-right: 1.5px;
-  height: 50px;
-  cursor: pointer;
-}
-
-button {
+  margin-top: 4px;
+  margin-bottom: 4px;
   padding: 0;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   border: 0;
   border-radius: 0;
-  background: transparent;
   line-height: 1;
-  cursor: auto;
+  font-family: "Montserrat";
+  letter-spacing: 0.03rem;
+  height: 45px;
+  width: 100%;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
 button:focus {

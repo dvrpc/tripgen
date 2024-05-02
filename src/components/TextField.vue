@@ -24,11 +24,13 @@ const props = defineProps({
   padding: 15px;
   font-family: Montserrat, Tahoma, sans-serif;
   font-size: 16px;
-  width: 100%;
+  width: 100% !important;
   height: 50px;
   border-style: solid;
   border-color: #0f4d90;
   border-width: 2px;
   outline: none;
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
 </style>
