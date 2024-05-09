@@ -36,12 +36,25 @@ watch(
   }, 1000)
 );
 
-watch(store, (value) => {
-  address.value = value.selectedFeature.properties.ADDR_STD;
-});
+watch(
+  () => store.selectedFeature,
+  (value) => {
+    address.value = value.properties.ADDR_STD;
+  }
+);
 
 const onClick = (item) => {
   store.selectedFeature = item;
+  if (store.map) {
+    store.map.removeFeatureState({ source: "parcels" });
+    store.map.setFeatureState(
+      {
+        source: "parcels",
+        id: store.selectedFeature.id,
+      },
+      { click: true }
+    );
+  }
 };
 </script>
 
