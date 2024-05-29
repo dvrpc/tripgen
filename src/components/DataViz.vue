@@ -10,6 +10,7 @@ import {
   LinearScale,
 } from "chart.js";
 import { store } from "@/utilities/store";
+import { jsPDF } from "jspdf";
 
 ChartJS.register(
   Title,
@@ -23,6 +24,18 @@ const { employees, residents } = store.formData;
 
 const tripsAM = 4.229 + 2.072 * employees + 0.139 * residents;
 const tripsPM = -2.242 + 3.817 * employees + 0.181 * residents;
+
+const plugin = {
+  id: "customCanvasBackgroundColor",
+  beforeDraw: (chart, args, options) => {
+    const { ctx } = chart;
+    ctx.save();
+    ctx.globalCompositeOperation = "destination-over";
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, chart.width, chart.height);
+    ctx.restore();
+  },
+};
 
 const amChartData = {
   labels: ["Person Trips", "Residents", "Employees"],
@@ -55,6 +68,19 @@ const pmChartOptions = {
     },
   },
 };
+
+const downloadClick = () => {
+  const chartAM = document.getElementById("chartAM");
+  const chartAMImage = chartAM.toDataURL("image/jpeg", 1.0);
+  const chartPM = document.getElementById("chartPM");
+  const chartPMImage = chartPM.toDataURL("image/jpeg", 1.0);
+  let pdf = new jsPDF({
+    orientation: "landscape",
+  });
+  pdf.addImage(chartAMImage, "jpeg", 15, 15, 140, 75);
+  pdf.addImage(chartPMImage, "jpeg", 15, 100, 140, 75);
+  pdf.save("viz.pdf");
+};
 </script>
 
 <template>
@@ -68,8 +94,69 @@ const pmChartOptions = {
     >
     <span>Residents: {{ store.formData.residents }}</span>
   </p>
-  <Bar id="chartAM" :options="amChartOptions" :data="amChartData"></Bar>
-  <Bar id="chartPM" :options="pmChartOptions" :data="pmChartData"></Bar>
+  <Bar
+    id="chartAM"
+    :options="amChartOptions"
+    :data="amChartData"
+    :plugins="[plugin]"
+  ></Bar>
+  <Bar
+    id="chartPM"
+    :options="pmChartOptions"
+    :data="pmChartData"
+    :plugins="[plugin]"
+  ></Bar>
+  <button id="download" :onclick="downloadClick">
+    Export PDF
+    <span>
+      <svg
+        width="24px"
+        height="24px"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 16L12 8"
+          stroke="#323232"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M9 13L11.913 15.913V15.913C11.961 15.961 12.039 15.961 12.087 15.913V15.913L15 13"
+          stroke="#323232"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M3 15L3 16L3 19C3 20.1046 3.89543 21 5 21L19 21C20.1046 21 21 20.1046 21 19L21 16L21 15"
+          stroke="#323232"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </span>
+  </button>
 </template>
 
-<style></style>
+<style>
+#download {
+  margin-left: auto;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  display: flex;
+  align-items: center;
+}
+
+#download > span {
+  margin-left: 0.5rem;
+}
+</style>
