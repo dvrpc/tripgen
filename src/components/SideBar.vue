@@ -30,6 +30,7 @@ watch(
       const data = await res.json();
       items.value = data.features;
     } else {
+      console.log("hello", Object.keys(store.selectedFeature).length);
       store.selectedFeature = {};
       items.value = [];
     }
@@ -39,7 +40,9 @@ watch(
 watch(
   () => store.selectedFeature,
   (value) => {
-    address.value = value.properties.ADDR_STD;
+    if (Object.keys(store.selectedFeature).length) {
+      address.value = value.properties.ADDR_STD;
+    }
   }
 );
 
@@ -108,7 +111,12 @@ const onClick = (item) => {
       <PhilaButton text="Generate Report"></PhilaButton>
     </template>
   </form>
-  <template v-if="!!Object.keys(store.formData).length">
+  <template
+    v-if="
+      !!Object.keys(store.formData).length &&
+      !!Object.keys(store.selectedFeature).length
+    "
+  >
     <DataViz :key="vizKey" />
   </template>
 </template>
