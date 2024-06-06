@@ -108,6 +108,14 @@ const onClick = (item) => {
           required
         ></TextField>
       </label>
+      <label
+        >Parking Spaces
+        <TextField
+          placeholder="Parking Spaces"
+          name="parking"
+          required
+        ></TextField>
+      </label>
       <PhilaButton text="Generate Report"></PhilaButton>
     </template>
   </form>
