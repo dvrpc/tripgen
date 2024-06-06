@@ -30,7 +30,6 @@ watch(
       const data = await res.json();
       items.value = data.features;
     } else {
-      console.log("hello", Object.keys(store.selectedFeature).length);
       store.selectedFeature = {};
       items.value = [];
     }
@@ -63,7 +62,7 @@ const onClick = (item) => {
 
 <template>
   <h2>{{ title ? title : "Create Scenario" }}</h2>
-  <form @submit="formSubmit">
+  <form v-if="!Object.keys(store.formData).length" @submit="formSubmit">
     <label
       >Project Title
       <TextField
@@ -125,6 +124,9 @@ const onClick = (item) => {
       !!Object.keys(store.selectedFeature).length
     "
   >
+    <button class="link-button" @click="() => (store.formData = {})">
+      Edit
+    </button>
     <DataViz :key="vizKey" />
   </template>
 </template>
@@ -136,6 +138,7 @@ label {
 }
 
 #suggestions > div > button {
+  font-family: "Open Sans";
   cursor: pointer;
   background: none;
   color: inherit;
@@ -143,5 +146,15 @@ label {
   padding: 0;
   font: inherit;
   outline: inherit;
+}
+
+.link-button {
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
 }
 </style>
