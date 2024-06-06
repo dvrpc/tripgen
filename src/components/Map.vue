@@ -43,13 +43,14 @@ export default {
         source: "parcels",
         layout: {},
         paint: {
-          "fill-color": "#1868d1",
-          "fill-opacity": [
+          "fill-color": [
             "case",
             ["boolean", ["feature-state", "click"], false],
-            0.8,
-            0.2,
+            "#1868d1",
+            "transparent",
           ],
+          "fill-opacity": 0.8,
+          "fill-outline-color": "#1868d1",
         },
       });
     });
