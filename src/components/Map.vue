@@ -33,38 +33,39 @@ export default {
     store.map = map;
 
     map.on("load", () => {
+      map.addSource("parcel", {
+        type: "geojson",
+        data: { type: "FeatureCollection", features: [] },
+      });
       map.addSource("parcels", {
         type: "geojson",
         data: { type: "FeatureCollection", features: [] },
       });
       map.addLayer({
-        id: "parcels-fill",
-        type: "fill",
+        id: "parcel-selected",
+        type: "fill-extrusion",
+        source: "parcel",
+        layout: {},
+        paint: {
+          "fill-extrusion-color": "#1868d1",
+          "fill-extrusion-height": 50,
+        },
+      });
+      map.addLayer({
+        id: "parcels-outline",
+        type: "line",
         source: "parcels",
         layout: {},
         paint: {
-          "fill-color": [
-            "case",
-            ["boolean", ["feature-state", "click"], false],
-            "#1868d1",
-            "transparent",
-          ],
-          "fill-opacity": 0.8,
-          "fill-outline-color": "#1868d1",
+          "line-color": "#aaa",
+          "line-width": 1.75,
         },
       });
     });
 
-    map.on("click", "parcels-fill", (event) => {
+    map.on("click", "parcels-outline", (event) => {
       store.selectedFeature = event.features[0];
-      map.removeFeatureState({ source: "parcels" });
-      map.setFeatureState(
-        {
-          source: "parcels",
-          id: store.selectedFeature.id,
-        },
-        { click: true }
-      );
+      store.map.getSource("parcel").setData(store.selectedFeature);
       store.formData = {};
     });
 
@@ -95,6 +96,7 @@ export default {
               ],
               {
                 maxZoom: 17,
+                pitch: 25,
               }
             );
         }

@@ -48,14 +48,7 @@ watch(
 const onClick = (item) => {
   store.selectedFeature = item;
   if (store.map) {
-    store.map.removeFeatureState({ source: "parcels" });
-    store.map.setFeatureState(
-      {
-        source: "parcels",
-        id: store.selectedFeature.id,
-      },
-      { click: true }
-    );
+    store.map.getSource("parcel").setData(store.selectedFeature);
   }
 };
 </script>
