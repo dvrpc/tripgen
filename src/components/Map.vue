@@ -24,7 +24,7 @@ export default {
     const map = new mapboxgl.Map({
       container: this.$refs.mapContainer,
       style: "mapbox://styles/mapbox/light-v11",
-      center: [-75.2273, 40.071],
+      center: [-75.146484, 39.985275],
       bearing,
       pitch,
       zoom,
@@ -37,9 +37,23 @@ export default {
         type: "geojson",
         data: { type: "FeatureCollection", features: [] },
       });
+      map.addSource("county", {
+        type: "geojson",
+        data: "https://arcgis.dvrpc.org/portal/rest/services/Boundaries/CountyBoundaries_Line/FeatureServer/0/query?where=co_name+like+%27%25Philadelphia%25%27&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&distance=&units=esriSRUnit_Foot&relationParam=&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&havingClause=&gdbVersion=&historicMoment=&returnDistinctValues=false&returnIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&multipatchOption=xyFootprint&resultOffset=&resultRecordCount=&returnTrueCurves=false&returnExceededLimitFeatures=false&quantizationParameters=&returnCentroid=false&timeReferenceUnknownClient=false&sqlFormat=none&resultType=&featureEncoding=esriDefault&datumTransformation=&f=geojson",
+      });
+
       map.addSource("parcels", {
         type: "geojson",
         data: { type: "FeatureCollection", features: [] },
+      });
+      map.addLayer({
+        id: "county",
+        type: "line",
+        source: "county",
+        paint: {
+          "line-color": "#6e6e6e",
+          "line-width": 2,
+        },
       });
       map.addLayer({
         id: "parcel-selected",
