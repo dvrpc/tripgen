@@ -1,7 +1,6 @@
 @import url("./base.css");
 
 #app {
-  display: flex;
   height: 100vh;
   padding: 0;
   flex: 1;
@@ -27,7 +26,6 @@ a,
   }
 
   #app {
-    display: flex;
     height: 100vh;
     padding: 0;
     flex: 1;
