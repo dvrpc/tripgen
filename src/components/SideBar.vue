@@ -118,7 +118,7 @@ const onClick = (item) => {
     "
   >
     <button class="link-button" @click="() => (store.formData = {})">
-      Edit
+      Edit Fields
     </button>
     <DataViz :key="vizKey" />
   </template>

@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import { store } from "@/utilities/store";
 import { jsPDF } from "jspdf";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 ChartJS.register(
   Title,
@@ -18,12 +19,13 @@ ChartJS.register(
   BarElement,
   CategoryScale,
   LinearScale,
-  Colors
+  Colors,
+  ChartDataLabels
 );
 const { employees, residents } = store.formData;
 
-const tripsAM = 4.229 + 2.072 * employees + 0.139 * residents;
-const tripsPM = -2.242 + 3.817 * employees + 0.181 * residents;
+const tripsAM = 2.2901 + 0.1441 * residents;
+const tripsPM = 5.207 + 0.1818 * residents;
 
 const plugin = {
   id: "customCanvasBackgroundColor",
@@ -50,6 +52,42 @@ const amChartOptions = {
       display: true,
       text: "Person Trips AM",
     },
+    datalabels: {
+      color: "white",
+      display: function (context) {
+        return context.dataset.data[context.dataIndex] > 15;
+      },
+      font: {
+        weight: "bold",
+      },
+      formatter: Math.round,
+    },
+    aspectRatio: 5 / 3,
+    layout: {
+      padding: {
+        top: 24,
+        right: 16,
+        bottom: 0,
+        left: 8,
+      },
+    },
+    elements: {
+      line: {
+        fill: false,
+      },
+      point: {
+        hoverRadius: 7,
+        radius: 5,
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+      },
+    },
   },
 };
 
@@ -65,6 +103,42 @@ const pmChartOptions = {
     title: {
       display: true,
       text: "Person Trips PM",
+    },
+    datalabels: {
+      color: "white",
+      display: function (context) {
+        return context.dataset.data[context.dataIndex] > 15;
+      },
+      font: {
+        weight: "bold",
+      },
+      formatter: Math.round,
+    },
+    aspectRatio: 5 / 3,
+    layout: {
+      padding: {
+        top: 24,
+        right: 16,
+        bottom: 0,
+        left: 8,
+      },
+    },
+    elements: {
+      line: {
+        fill: false,
+      },
+      point: {
+        hoverRadius: 7,
+        radius: 5,
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+      },
     },
   },
 };
