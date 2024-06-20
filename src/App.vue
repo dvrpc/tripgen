@@ -74,6 +74,7 @@ const location = {
 
 #dvrpc-logo {
   height: 2rem;
+  margin-top: 0.5rem;
 }
 
 #philly-logo {
